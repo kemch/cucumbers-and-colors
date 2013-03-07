@@ -1,0 +1,290 @@
+@import "compass/css3";
+@import "compass/utilities/general/clearfix";
+// Color Palette
+// =============
+
+// Colors
+$green: #52B859;
+$blue: #029BC3;
+$red: red;
+
+// Neutrals
+$black: #000000;
+$grey: #3D3D3D;
+$white: #FFFFFF;
+
+$textBase: $grey;
+
+body {
+	color: $textBase;
+}
+
+hr {
+	border: {
+		top: 1px dotted $grey;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+	background-color: transparent;
+}
+
+// Anchor Links
+// =============
+@mixin a($anchorBase) {
+	&:link 		{color:$anchorBase;}  
+	&:visited 	{color:$anchorBase;} 
+	&:hover 	{color:darken($anchorBase, 10);}  
+	&:active 	{color:$anchorBase;} 	
+}
+a {
+	@include a($blue);	
+}
+
+// Function examples
+// =============
+@mixin swatches($operation:darken, $baseColor:$blue) {
+	position: relative;
+	@for $i from 1 through 10 {
+		$n: $i - 1;
+		@if $operation == darken {
+			div:nth-child(#{$i} ) {
+				background-color: darken($baseColor, $n*5);
+			}
+		}
+
+		@if $operation == lighten {
+			div:nth-child(#{$i}) {
+				background-color: lighten($baseColor, $n*5);
+			}
+		}
+
+		@if $operation == tint {
+			div:nth-child(#{$i}) {
+				background-color: tint($baseColor, $n*5);
+			}
+		}
+
+		@if $operation == shade {
+			div:nth-child(#{$i}) {
+				background-color: shade($baseColor, $n*5);
+			}
+		}
+
+		@if $operation == transparentize {
+			div:nth-child(#{$i}) {
+				background-color: transparentize($baseColor, $n/10);
+			}
+		}
+
+		@if $operation == opacify {
+			div:nth-child(#{$i}) {
+				background-color: opacify($baseColor, $n/10);
+			}
+		}
+
+		@if $operation == adjust-hue {
+			div:nth-child(#{$i}) {
+				background-color: adjust-hue($baseColor, ($n*10deg));
+			}
+		}
+
+		@if $operation == saturate {
+			div:nth-child(#{$i}) {
+				background-color: saturate($baseColor, ($n*5));
+			}
+		}
+
+		@if $operation == desaturate {
+			div:nth-child(#{$i}) {
+				background-color: desaturate($baseColor, ($n*5));
+			}
+		}
+	}
+	div:first-child:before {
+		position: absolute;
+		content: "#{$operation}";
+		color: $white;
+		padding-left: 20px;
+		padding-top: 10px;
+	}
+}
+
+.swatches {
+	@include clearfix;
+	position: relative;
+		div {
+		width: 10%;
+		height: 100px;
+		float: left;
+	}
+}
+
+.darken 		{	@include swatches(darken,$blue); }
+.lighten 		{ 	@include swatches (lighten,$blue); }
+.tint 			{ 	@include swatches(tint, $blue);}
+.opacify 		{	@include swatches(opacify, $blue);}
+.transparentize {	@include swatches(transparentize, $blue);}
+.shade 			{ 	@include swatches(shade, $blue); }
+.adjust-hue 	{ 	@include swatches(adjust-hue, $blue); }
+.saturate 		{ 	@include swatches(saturate, $blue); }
+
+
+// Gradients
+// =============
+
+.gradient {
+	$gradientBase: tint($blue, 30);
+	width: 100%;
+	height: 100px;
+	margin-bottom: 10px;
+ 	@include background-image(linear-gradient(left, $gradientBase, darken($gradientBase,20)));
+}
+
+.gradient.blue {
+	$gradientBase: tint($green, 30);
+	width: 100%;
+	height: 100px;
+	margin-bottom: 10px;
+ 	@include background-image(linear-gradient(left, lighten($gradientBase,20), darken($gradientBase,50)));
+}
+
+.gradient.red {
+	$gradientBase: tint($red, 30);
+	width: 100%;
+	height: 100px;
+	margin-bottom: 10px;
+ 	@include background-image(linear-gradient(left, $gradientBase, darken($gradientBase,20)));
+}
+
+// Buttons
+// =============
+
+.btn {
+	@include rokkitt;
+	padding: 1em 2em;
+	font-weight: bold;
+	border-radius: 2px;
+	cursor: pointer;
+	display: inline-block;
+}
+
+@mixin btn-color($buttonBaseColor) {
+	color: $white;
+	background-color: $buttonBaseColor;
+	border: 1px solid lighten($buttonBaseColor,10);
+	@include background-image(linear-gradient($buttonBaseColor, darken($buttonBaseColor,20)));
+	text-shadow: 0 -1px 0 darken($buttonBaseColor, 10);
+	@include box-shadow(inset 0 1px 0 lighten($buttonBaseColor, 20));
+	
+	&:hover {
+		color: $white;
+		background-color: darken($buttonBaseColor,10);
+		border: 1px solid darken($buttonBaseColor,30);
+		@include background-image(linear-gradient(darken($buttonBaseColor,20), darken($buttonBaseColor,10)));
+		text-shadow: 0 -1px 0 darken($buttonBaseColor, 20);
+		@include box-shadow(inset 0 1px 0 lighten($buttonBaseColor, 30));
+	}
+
+	&:active {
+		color: $white;
+		background-color: lighten($buttonBaseColor,10);
+		border: 1px solid lighten($buttonBaseColor,30);
+		@include background-image(linear-gradient(lighten($buttonBaseColor,20), lighten($buttonBaseColor,10)));
+		text-shadow: 0 -1px 0 lighten($buttonBaseColor, 20);
+		@include box-shadow(inset 0 1px 0 lighten($buttonBaseColor, 30));
+	}
+}
+
+.btn-green {
+	@include btn-color($green);
+}
+.btn-blue {
+	@include btn-color($blue);
+}
+.btn-red {
+	@include btn-color($red);
+}
+
+// Coloring sections
+// ==========
+
+@mixin section-color($sectionBase) {
+	background-color: $sectionBase;
+	p {	color: tint($sectionBase, 70);}
+ 	h1, h2 { color: $white;	}	
+ 	strong  { color: shade($sectionBase, 60);}
+ 	hr {
+ 		border-top: 1px dotted shade($sectionBase,20);
+ 	}
+ 	a {
+ 		@include a(tint($blue,90));
+ 	}
+}
+
+.section-green { @include section-color($green);}
+.section-blue  { @include section-color($blue);}
+.section-red  { @include section-color($red);}
+.section-black  { @include section-color($black);}
+
+.section-lightgreen {
+	padding-top: 2em;
+	@include background-image(radial-gradient(
+		50% 200px,
+		adjust_hue(saturate(lighten($green, 41), 41), 296),	
+		saturate(lighten(adjust_hue($green, 308), 36), 58)
+	));
+	background-color: saturate(lighten(adjust_hue($green, 308), 36), 58);
+
+}
+
+
+// Cucumber 
+// ===========
+
+.cucumber {
+	margin: 1em auto;
+	$cucBaseColor: $green;
+	position: relative;
+	width: 300px;
+	height: 300px;
+	border-radius: 170px;
+	border: 15px solid darken($cucBaseColor, 20);
+	@include box-shadow(2px 10px 60px desaturate(darken($cucBaseColor, 20),41));	
+	@include background-image(radial-gradient(
+			saturate(lighten(adjust_hue($cucBaseColor, 308), 36), 58) 18%,
+			saturate(lighten(adjust_hue($cucBaseColor, 331), 27), 48) 60%,
+			$cucBaseColor 70%
+			));
+	
+	.seed-group {
+		width: 170px;
+		height: 170px;
+		left: 65px;
+		top: 65px;
+		// -webkit-transform: rotate();
+		position: absolute;
+		&:nth-child(2) {@include rotate(60deg);}
+		&:nth-child(3) {@include rotate(120deg);}
+		&:nth-child(4) {@include rotate(180deg);}
+		&:nth-child(5) {@include rotate(240deg);}
+		&:nth-child(6) {@include rotate(300deg);}
+
+	}
+
+	.seed {
+		position: relative;
+		width: 0; 
+		height: 0;
+		border-radius: 50px;
+		border-left: 50px solid transparent;
+		border-right: 50px solid transparent;
+		border-bottom: 80px solid transparentize($cucBaseColor, .8);
+		@include rotate(140deg);
+	}
+}
+
+
+
+
+
