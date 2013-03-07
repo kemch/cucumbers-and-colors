@@ -4,6 +4,8 @@
 // =============
 
 // Colors
+// All the colors on the page are made from either of these.
+
 $green: #52B859;
 $blue: #029BC3;
 $red: red;
@@ -43,6 +45,11 @@ a {
 
 // Function examples
 // =============
+
+// This mixin runs a color operation through a @for loop
+// and outputs 10 values. The parameters take the operation
+// and the color. 
+
 @mixin swatches($operation:darken, $baseColor:$blue) {
 	position: relative;
 	@for $i from 1 through 10 {
@@ -101,6 +108,10 @@ a {
 			}
 		}
 	}
+
+	// This labels each one with the operation
+	// so we know what we're looking at.
+
 	div:first-child:before {
 		position: absolute;
 		content: "#{$operation}";
@@ -120,6 +131,8 @@ a {
 	}
 }
 
+
+
 .darken 		{	@include swatches(darken,$blue); }
 .lighten 		{ 	@include swatches (lighten,$blue); }
 .tint 			{ 	@include swatches(tint, $blue);}
@@ -128,6 +141,7 @@ a {
 .shade 			{ 	@include swatches(shade, $blue); }
 .adjust-hue 	{ 	@include swatches(adjust-hue, $blue); }
 .saturate 		{ 	@include swatches(saturate, $blue); }
+.desaturate 	{ 	@include swatches(desaturate, $blue); }
 
 
 // Gradients
@@ -168,6 +182,9 @@ a {
 	cursor: pointer;
 	display: inline-block;
 }
+
+// Mixin for a button that takes a parameter
+// for the color.
 
 @mixin btn-color($buttonBaseColor) {
 	color: $white;
